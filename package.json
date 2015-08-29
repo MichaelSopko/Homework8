@@ -1,0 +1,26 @@
+{
+  "name": "vrakashy",
+  "version": "0.0.1",
+  "description": "\"social network\"",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelSopko/Homework8.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Sopko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelSopko/Homework8/issues"
+  },
+  "homepage": "https://github.com/MichaelSopko/Homework8#readme",
+  "dependencies": {
+    "body-parser": "1.13.3",
+    "express": "4.13.3"
+  }
+}
