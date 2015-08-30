@@ -9,6 +9,7 @@ var User = function() {
         this.admin = new adminModel('Admin');
         res.status(200).send("Admin created");
         console.log(this.admin);
+        next();
     };
 
     this.deleteUser = function (req, res, next) {
@@ -19,6 +20,7 @@ var User = function() {
         }
 
         res.send('error');
+        next();
     };
 
     this.getAll = function (req, res, next) {
@@ -29,6 +31,7 @@ var User = function() {
         res.status(200).send("Admin's content: " + this.admin.content);
         console.log(req.ip);
         console.log(this.admin);
+        next();
     };
 
 };

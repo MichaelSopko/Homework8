@@ -12,6 +12,7 @@ module.exports = function(app) {
     app.get('/', function (req, res, next) {
         res.status(200).send("Main Page");
         console.log(req.ip);
+        next();
     });
 
     app.use('/user', userRouter);

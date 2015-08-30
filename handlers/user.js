@@ -10,6 +10,7 @@
          this.user = new userModel('Vasya','Pupkin');
          res.status(200).send("User " + this.user.firstName + ' ' + this.user.lastName + " was created");
          console.log(this.user);
+         next();
      };
 
      this.updateUser = function (req, res, next) {
@@ -20,6 +21,7 @@
          this.user.lastName = req.params.lastName;
 
          res.status(200).send("User: " + this.user.firstName + ' ' + this.user.lastName);
+         next();
      };
 
      this.addContent = function (req, res, next) {
@@ -29,6 +31,7 @@
          this.user.content.text = req.params.addContent;
 
          res.status(200).send(this.user.firstName + " posted: " + this.user.content.text);
+         next();
      };
 
      this.getAll = function (req, res, next) {
@@ -39,6 +42,7 @@
          res.status(200).send(this.user.firstName + "'s content: " + this.user.content);
          console.log(req.ip);
          console.log(this.user);
+         next();
      };
 
  };
