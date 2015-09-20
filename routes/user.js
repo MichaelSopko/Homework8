@@ -9,9 +9,10 @@ module.exports = (function(){
     var userHandler = new UserHandler();
 
     userRouter.get('/', userHandler.getAll);
-    userRouter.post('/', userHandler.create);
-    userRouter.post('/:firstName/:lastName', userHandler.updateUser);
-    userRouter.post('/:addContent', userHandler.addContent);
+    userRouter.delete('/:id', userHandler.remove);
+
+    userRouter.post('/:id', userHandler.create);
+    userRouter.post('/:id/post/:postid', userHandler.addContent);
 
     return userRouter;
 })();

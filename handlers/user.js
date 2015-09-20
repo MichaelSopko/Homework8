@@ -1,50 +1,73 @@
  /**
  * Created by Michael on 28.08.2015.
  */
+ var mongoose = require('mongoose');
+ var UserSchema = mongoose.schemas.User;
+ var PostSchema = mongoose.schemas.Post;
+ var _User = mongoose.model('user', UserSchema);
+ var Post = mongoose.model('Post', PostSchema);
 
  var User = function() {
-     var userModel = require('../models/user');
-
      this.create = function (req, res, next) {
-         console.log("ip: " + req.ip);
-         this.user = new userModel('Vasya','Pupkin');
-         res.status(200).send("User " + this.user.firstName + ' ' + this.user.lastName + " was created");
-         console.log(this.user);
-         next();
+         var body = req.body;
+
+         var user = new _User(body);
+         user._id = req.params.id;
+
+         user.save(function (err) {
+             if (err) return next(err);
+
+             res.status(200).send(user);
+         });
      };
 
-     this.updateUser = function (req, res, next) {
-         if (!this.user){
-             this.user = new userModel();
-         }
-         this.user.firstName = req.params.firstName;
-         this.user.lastName = req.params.lastName;
+     this.remove = function(req, res, next){
+         var _id = req.params.id;
 
-         res.status(200).send("User: " + this.user.firstName + ' ' + this.user.lastName);
-         next();
+         _User.findByIdAndRemove(_id, function (err, response) {
+             if (err) {
+                 return next(err);
+             }
+
+             res.status(200).send(response);
+         });
      };
 
      this.addContent = function (req, res, next) {
-         if (!this.user){
-             this.user = new userModel('anonimus');
-         }
-         this.user.content.text = req.params.addContent;
+         var body = req.body;
 
-         res.status(200).send(this.user.firstName + " posted: " + this.user.content.text);
-         next();
+         var post = new Post(body);
+         post._id = req.params.postid;
+         post._creator = req.params.id;
+
+         post.save(function (err) {
+             if (err) return next(err);
+
+             _User.findById(post._creator, function(err, user){
+                 user.posts.push(post);
+
+                 user.save(function (err) {
+                       if (err) return next(err);
+                 });
+             });
+
+             res.status(200).send( " posted: " + post);
+         });
      };
 
      this.getAll = function (req, res, next) {
-         if (!this.user){
-             this.user = new userModel("Anonimus");
-         }
+        _User
+            .find()
+            .populate('posts')
+            .lean()
+            .exec(function(err, response){
+                if (err) {
+                    return next(err);
+                }
 
-         res.status(200).send(this.user.firstName + "'s content: " + this.user.content);
-         console.log(req.ip);
-         console.log(this.user);
-         next();
+                res.status(200).send(response);
+            });
      };
-
  };
 
 module.exports = User;

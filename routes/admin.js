@@ -9,8 +9,8 @@ module.exports = (function(){
     var adminHandler = new AdminHandler();
 
     adminRouter.get('/', adminHandler.getAll);
-    adminRouter.post('/', adminHandler.create);
-    adminRouter.post('/delete/:username', adminHandler.deleteUser);
+    adminRouter.post('/:id', adminHandler.create);
+    adminRouter.delete('/:userId', adminHandler.deleteUser);
 
     return adminRouter;
 })();

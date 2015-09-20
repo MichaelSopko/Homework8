@@ -1,18 +1,19 @@
 /**
  * Created by Michael on 28.08.2015.
  */
-var User = require('./models/user');
+var mongoose = require('mongoose');
+var extend = require('mongoose-schema-extend');
 
-function superAdmin(){
-    User.apply(this,arguments);
-    this.accessRights = true;
-}
-superAdmin.prototype = new User();
-superAdmin.prototype.constructor = superAdmin;
+var Schema =  mongoose.schemas.User;
 
-superAdmin.prototype.deleteContent = function (postName)  {
-    postName.deleteContent();
-};
-superAdmin.prototype.deleteUser = function(username) {
-    username.deleteUser();
-};
+var SuperAdminSchema = Schema.extend({
+    name: {
+        firstName: {type: String, default: 'Admin'},
+        lastName: {type: String, default: 'Admin'}
+    },
+    admin: Boolean
+});
+
+mongoose.schemas.Admin = SuperAdminSchema;
+
+

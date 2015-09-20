@@ -1,28 +1,37 @@
 /**
  * Created by Michael on 28.08.2015.
  */
-var Content = require('./content');
+var mongoose = require('mongoose');
 
-var User = function (firstName, lastName, Email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = Email;
-    this.content = new Content();
-};
+var Schema = mongoose.Schema;
 
- User.prototype.constructor = User;
+var UserSchema = Schema({
+    id: false,
+    _id: Number,
+    name: {
+        firstName: {type: String, default: 'Vasya'},
+        lastName: {type: String, default: 'Pupkin'}
+    },
+    dateOfBirth: {type: Date, default: Date.now()},
+    posts: [{type: Number, ref:'Post'}],
+    age: Number,
+    login: {type: String, unique: true},
+    email: {type: String, unique: true},
+    password: {type: String}
+}, {collection: 'User', version: false});
 
- User.prototype.changeEmail = function (newEmail) {
-     this.email = newEmail;
-     return "New Email Saved: " + this.email;
- };
- User.prototype.getFullName = function () {
-     return this.firstName + " " + this.lastName;
- };
- User.prototype.deleteUser = function () {
-     for (var i in this) {
-         delete this[i];
-     }
- };
+UserSchema.pre('save', function(next){
+    var dOb = this.dateOfBirth;
 
-module.exports = User;
+    this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24;
+
+    next();
+});
+
+UserSchema.virtual('fullName').get(function(){
+    return this.name.first + ' ' + this.name.last
+});
+
+UserSchema.set('toJSON', { virtuals: true });
+
+mongoose.schemas.User = UserSchema;

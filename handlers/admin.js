@@ -1,39 +1,54 @@
 /**
  * Created by Michael on 29.08.2015.
  */
-var User = function() {
-    var adminModel = require('../models/user');
+var mongoose = require('mongoose');
+var UserSchema = mongoose.schemas.User;
+var AdminSchema = mongoose.schemas.Admin;
+var PostSchema = mongoose.schemas.Post;
+var _User = mongoose.model('user', UserSchema);
+var _Admin = mongoose.model('admin', AdminSchema);
+var Post = mongoose.model('Post', PostSchema);
+
+var Admin = function() {
 
     this.create = function (req, res, next) {
-        console.log("ip: " + req.ip);
-        this.admin = new adminModel('Admin');
-        res.status(200).send("Admin created");
-        console.log(this.admin);
-        next();
+        var body = req.body;
+
+        var admin = new _Admin(body);
+        admin._id = req.params.id;
+
+        admin.save(function (err) {
+            if (err) return next(err);
+
+            res.status(200).send(admin);
+        });
     };
 
     this.deleteUser = function (req, res, next) {
-        if(this.user.firstName == req.params.username){
-            this.admin.deleteUser(this.user);
+        var _id = req.params.id;
 
-            res.status(200).send(this.user.firstName + ' deleted');
-        }
+        _User.findByIdAndRemove(_id, function (err, response) {
+            if (err) {
+                return next(err);
+            }
 
-        res.send('error');
-        next();
+            res.status(200).send(response);
+        });
     };
 
     this.getAll = function (req, res, next) {
-        if (!this.admin){
-            this.admin = new adminModel("Admin");
-        }
+        _User
+            .find()
+            .populate('posts')
+            .lean()
+            .exec(function(err, response){
+                if (err) {
+                    return next(err);
+                }
 
-        res.status(200).send("Admin's content: " + this.admin.content);
-        console.log(req.ip);
-        console.log(this.admin);
-        next();
+                res.status(200).send(response);
+            });
     };
-
 };
 
-module.exports = User;
+module.exports = Admin;
