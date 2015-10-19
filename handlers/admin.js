@@ -1,94 +1,36 @@
 /**
- * Created by Michael on 07.10.2015.
+ * Created by Michael on 29.08.2015.
  */
-var mongoose = require('mongoose');
-var AdminSchema = mongoose.schemas.Admin;
-var UserSchema = mongoose.schemas.User;
-var PostSchema = mongoose.schemas.Post;
-var _Admin = mongoose.model('admin', AdminSchema);
-var _User = mongoose.model('user', UserSchema);
-var Post = mongoose.model('post', PostSchema);
+var User = function() {
+    var adminModel = require('../models/user');
 
-
-var Admin = function(){
-
-    this.getAll = function(req, res, next){
-        console.log("Admin handler opened!");
-        _Admin
-            .find({admin:true})
-            .populate('posts', '-_id')
-            .lean()
-            .exec(function (err, response) {
-                if (err) {
-                    return next(err);
-                }
-
-                res.status(200).send(response);
-            });
+    this.create = function (req, res, next) {
+        console.log("ip: " + req.ip);
+        this.admin = new adminModel('Admin');
+        res.status(200).send("Admin created");
+        console.log(this.admin);
     };
 
-    this.create = function(req, res,next){
-        var body = req.body;
+    this.deleteUser = function (req, res, next) {
+        if(this.user.firstName == req.params.username){
+            this.admin.deleteUser(this.user);
 
-        var admin = new _Admin(body);
+            res.status(200).send(this.user.firstName + ' deleted');
+        }
 
-        admin.save(function (err, admin) {
-            if (err) {
-                return next(err);
-            }
-
-            res.status(200).send(admin);
-        });
+        res.send('error');
     };
 
-    this.remove = function(req, res){
-        var id = req.body._id;
+    this.getAll = function (req, res, next) {
+        if (!this.admin){
+            this.admin = new adminModel("Admin");
+        }
 
-        _Admin.findByIdAndRemove(id, function (err, response) {
-            if (err) {
-                return next(err);
-            }
-
-            res.status(200).send(response);
-        });
+        res.status(200).send("Admin's content: " + this.admin.content);
+        console.log(req.ip);
+        console.log(this.admin);
     };
 
-    this.getById = function(req, res){
-        var id = req.params.id;
-
-        _Admin
-            .findById(id)
-            //.populate('posts', '-_id')
-            .lean()
-            .exec(function (err, response) {
-                if (err) {
-                    return next(err);
-                }
-
-                res.status(200).send(response);
-            });
-    };
-
-    this.createPost = function(req, res, next){
-        var body = req.body;
-
-        var post = new Post(body);
-        post._creator = req.params.id;
-
-        post.save(function (err) {
-            if (err) return next(err);
-
-            _Admin.findById(post._creator, function(err, user){
-                user.posts.push(post);
-
-                user.save(function (err) {
-                    if (err) return next(err);
-                });
-            });
-
-            res.status(200).send( " posted: " + post);
-        });
-    };
 };
 
-module.exports = Admin;
+module.exports = User;
