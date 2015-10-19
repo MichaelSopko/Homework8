@@ -1,0 +1,28 @@
+{
+  "name": "vrakashy",
+  "version": "0.0.0",
+  "authors": [
+    "Michael <misha170294@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/js/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.20",
+    "text": "~2.0.14",
+    "backbone": "~1.2.3",
+    "jquery": "~2.1.4",
+    "fetch": "~0.10.0",
+    "bootstrap": "~3.3.5"
+  }
+}
