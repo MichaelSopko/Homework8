@@ -1,7 +1,8 @@
 /**
- * Created by Michael on 28.08.2015.
+ * Created by Michael on 07.10.2015.
  */
 module.exports = (function(){
+
     var express = require('express');
     var AdminHandler = require('../handlers/admin');
 
@@ -10,7 +11,9 @@ module.exports = (function(){
 
     adminRouter.get('/', adminHandler.getAll);
     adminRouter.post('/', adminHandler.create);
-    adminRouter.post('/delete/:username', adminHandler.deleteUser);
+    adminRouter.delete('/', adminHandler.remove);
+    adminRouter.get('/:id', adminHandler.getById);
+    adminRouter.post('/:id', adminHandler.createPost);
 
     return adminRouter;
 })();
