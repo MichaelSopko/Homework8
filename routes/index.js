@@ -16,9 +16,21 @@ module.exports = function(app){
         res.sendfile("index.html");
     });
 
-    app.use('/users', userRouter);
-    app.use('/posts', postRouter);
-    app.use('/admin', adminRouter);
+    app.use('/users', function(req, res, next){
+        if(!req.session.user)
+            return next(new Error(403));
+        next();
+    }, userRouter);
+    app.use('/posts', function(req, res, next){
+        if(!req.session.user)
+            return next(new Error(403));
+        next();
+    },postRouter);
+    app.use('/admin', function(req, res, next){
+        if(!req.session.user)
+            return next(new Error(403));
+        next();
+    },adminRouter);
     app.post('/login', require('./login').post);
     app.get('/chat', require('./chat').get);
     app.post('/chat', require('./chat').post);

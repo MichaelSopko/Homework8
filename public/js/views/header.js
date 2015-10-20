@@ -17,7 +17,8 @@ define([
 
         logout : function(){
             var view = this;
-            Session.clear();
+            Session.logout();
+            //Session.clear();
             Backbone.history.navigate('', { trigger : true });
             view.render();
         },
