@@ -33,6 +33,7 @@ var UserSchema = Schema({
     },
     age: Number,
     posts: [{type: String, ref: 'post'}],
+    friends: [{type: String, ref: 'user'}],
     admin: {type: Boolean, default: false},
     created: {
         type: Date,
@@ -43,7 +44,7 @@ var UserSchema = Schema({
 UserSchema.pre('save', function(next){
     var dOb = this.dateOfBirth;
 
-    this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24;
+    this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24/ 365;
 
     next();
 });

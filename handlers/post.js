@@ -12,7 +12,7 @@ var Post = function(){
     this.getAll = function(req, res, next){
         _Post
             .find()
-            .populate('users', "_id")
+            .populate('_creator')
             .lean()
             .exec(function (err, response) {
                 if (err) {
@@ -65,11 +65,11 @@ var Post = function(){
     };
 
     this.getById = function(req, res){
-        var id = req.params.id;
+        var id = req.body._id;
 
         _Post
             .findById(id)
-            //.populate('posts', '-_id')
+            .populate('_creator')
             .lean()
             .exec(function (err, response) {
                 if (err) {

@@ -29,21 +29,21 @@ body{
     min-width: 900px;
     width: 80%;
     font: 14px Arial, sans-serif;
+    background: #ddd;
 }
 
 .clear{
     clear: both;
 }
 
-
 #container{
     background: #ddd;
 }
 
-.container{
+#content{
     width: 100%;
     background: #fff;
-    padding: 5px 0;
+    padding: 10px 20px;
 }
 
 a {
@@ -91,10 +91,6 @@ footer a{
     margin: 0 6px;
 }
 
-.content{
-    padding: 10px 20px;
-}
-
 .menu_left{
     float: left;
     width: 150px;
@@ -115,7 +111,7 @@ footer a{
     text-decoration: none;
 }
 
-#content_center{
+#contentHolder{
     margin: 0 auto;
     min-width: 550px;
     width: 68%;

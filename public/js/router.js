@@ -1,58 +1,51 @@
 /**
  * Created by Michael on 10.10.2015.
  */
-define(['models/user','views/HomeView', 'views/user/user', 'collections/users', 'views/user/create','views/login',
-        'views/post/post','collections/posts', 'views/user/profile','views/chat'],
-    function(User, HomeView, UserView, UserCollection, Create, Login, PostView, PostCollection, ProfileView, ChatView){
+define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/user/user',
+        'collections/users', 'views/user/create','views/login', 'views/post/post',
+        'collections/posts', 'views/user/profile','views/chat'],
+    function(User, HeaderView, SidebarView, HomeView, UserView,
+             UserCollection, Create, Login, PostView,
+             PostCollection, ProfileView, ChatView){
 
     var Router = Backbone.Router.extend({
         routes: {
+            '':"index",
             "registration":"registration",
             "login":"login",
             "users(/:userId)": "user",
             "posts": "posts",
-            '':"index",
             'chat':"chat",
             "*any": "any"
         },
 
         initialize: function(){
-            this.index();
-        },
-
-        chat:function(){
-            var homeView = new HomeView();
-            var chatView = new ChatView();
+            var headerView = new HeaderView();
+            var sidebarView = new SidebarView();
         },
 
         index: function(){
             var homeView = new HomeView();
         },
+
+        chat:function(){
+            var chatView = new ChatView();
+        },
+
         login: function(){
-            var homeView = new HomeView();
             var login = new Login();
         },
         registration: function(){
-            var homeView = new HomeView();
             var create = new Create();
-        },
-        users: function(){
-            var userCollection = new UserCollection();
-            var userRenderView = function(){
-                var view = new UserView({
-                    collection: userCollection
-                });
-            };
-            userCollection.fetch({reset:true});
-            userCollection.bind('reset', userRenderView);
         },
 
         user: function(userId){
+            this.initialize();
+
             var self = this;
             var collection;
             var renderView;
             var user;
-            var homeView = new HomeView();
 
             if(!userId) {
                 collection = new UserCollection();
@@ -88,8 +81,6 @@ define(['models/user','views/HomeView', 'views/user/user', 'collections/users', 
             var self = this;
             var postCollection;
             var postRenderView;
-
-            var homeView = new HomeView();
 
             postCollection = new PostCollection();
             postCollection.unbind();

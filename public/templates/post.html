@@ -1,28 +1,23 @@
-<div class="main-form-group">
+<h1 class="lead">Welcome!</h1>
+<form class="navbar-form navbar-default" role="search">
+    <div id="main-form-group">
+        <div class="form-group">
+            <textarea class="form-control" id="message" cols="70" rows="5"></textarea>
+            <button id="post-button" type="submit" class="btn btn-primary btn-lg" data-loading-text="Send...">send</button>
+        </div>
+    </div>
+</form>
 
-    <h1 class="lead">Welcome!</h1>
-    <div class="form-group">
-            <textarea  id="message" cols="50" rows="5"></textarea>
-            <button id="post-button" type="submit" class="btn btn-primary" data-loading-text="Send...">send</button>
-        <ul id="messages"></ul>
+<% posts.forEach(function(post){ %>
+<div class="well">
+    <div class="media">
+        <div class="media-body">
+            <h4 class="media-heading"><%= post._creator.name.first%> <%= post._creator.name.last%></h4>
+            <%=post.name%>
+        </div>
     </div>
 </div>
-
-<table class="table table-striped table-bordered table-hover table-condensed">
-    <thead>
-    <th>creator</th>
-    <th>Name</th>
-    <th>id</th>
-    </thead>
-
-    <% posts.forEach(function(post){ %>
-    <tr>
-        <td><%=post._creator%></td>
-        <td><%=post.name%></td>
-        <td><%=post._id%></td>
-    </tr>
-    <%})%>
-</table>
+<%})%>
 
 
 

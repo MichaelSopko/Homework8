@@ -12,8 +12,8 @@ var User = function(){
     this.getAll = function(req, res, next){
 
         _User
-            .find({admin:false})
-            .populate('posts', '_id')
+            .find()
+            .populate('posts friends', '_id')
             .lean()
             .exec(function (err, response) {
                 if (err) {
@@ -72,10 +72,9 @@ var User = function(){
 
         _User
             .findById(id)
-            .populate('posts')
+            .populate('posts friends')
             .lean()
             .exec(function (err, response) {
-
                 if (err) {
                     return next(err);
                 }
@@ -84,30 +83,21 @@ var User = function(){
             });
     };
 
-    this.createPost = function(req, res, next){
-        var body = req.body;
+    this.findByName =  function(req, res, next){
+        //...
+        var name = "firstname";
+        console.log(name);
+        _User
+            .find({name:{firstname:name}})
+            .populate('posts', '_id')
+            .lean()
+            .exec(function (err, response) {
+                if (err) {
+                    return next(err);
+                }
 
-        var post = new Post(body);
-        var creator = req.params.id;
-
-        _User.findById(creator, function (err, user) {
-            if (err) return next(err);
-
-            if(user){
-                post._creator = user;
-                user.posts.push(post._id);
-                user.save(function (err) {
-                    if (err) return next(err);
-                });
-            }
-
-            post.save(function (err, post) {
-                if (err) { return next(err); }
-                res.status(200).send(post);
+                res.status(200).send(response);
             });
-        });
-
-
     };
 };
 

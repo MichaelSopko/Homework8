@@ -13,7 +13,7 @@ module.exports = (function(){
     userRouter.post('/', userHandler.create);
     userRouter.delete('/', userHandler.remove);
     userRouter.get('/:id', userHandler.getById);
-    userRouter.post('/:id', userHandler.createPost);
+    userRouter.post('/find', userHandler.findByName);
 
     return userRouter;
 })();

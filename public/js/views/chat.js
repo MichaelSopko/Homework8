@@ -2,11 +2,11 @@
  * Created by Michael on 18.10.2015.
  */
 
-define(['models/user','text!templates/chat.html','Session'], function(User, userTemplate, Session){
+define(['text!templates/chat.html','Session'], function(chatTemplate, Session){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
-        template: _.template(userTemplate),
+        template: _.template(chatTemplate),
 
         events: {
         },
@@ -17,7 +17,9 @@ define(['models/user','text!templates/chat.html','Session'], function(User, user
 
         render: function(){
             var user = Session.get("user");
-            this.$el.html(this.template({user: user}));
+            this.$el.html(this.template({
+                user: user
+            }));
             return this;
         }
     });

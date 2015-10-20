@@ -13,7 +13,6 @@ module.exports = (function(){
     adminRouter.post('/', adminHandler.create);
     adminRouter.delete('/', adminHandler.remove);
     adminRouter.get('/:id', adminHandler.getById);
-    adminRouter.post('/:id', adminHandler.createPost);
 
     return adminRouter;
 })();

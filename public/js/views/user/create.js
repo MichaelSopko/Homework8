@@ -1,4 +1,4 @@
-define(['models/user','text!templates/create.html','Session'], function(User, createTemplate, Session){
+define(['models/user','text!templates/create.html'], function(User, createTemplate){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -45,8 +45,7 @@ define(['models/user','text!templates/create.html','Session'], function(User, cr
         },
 
         render: function(){
-            var user = Session.get(user);
-            this.$el.html(this.template({user: user}));
+            this.$el.html(this.template());
             return this;
         }
     });

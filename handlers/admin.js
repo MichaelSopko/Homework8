@@ -13,7 +13,7 @@ var Post = mongoose.model('post', PostSchema);
 var Admin = function(){
 
     this.getAll = function(req, res, next){
-        console.log("Admin handler opened!");
+
         _Admin
             .find({admin:true})
             .populate('posts', '-_id')
@@ -58,7 +58,7 @@ var Admin = function(){
 
         _Admin
             .findById(id)
-            //.populate('posts', '-_id')
+            .populate('posts', '-_id')
             .lean()
             .exec(function (err, response) {
                 if (err) {
@@ -67,27 +67,6 @@ var Admin = function(){
 
                 res.status(200).send(response);
             });
-    };
-
-    this.createPost = function(req, res, next){
-        var body = req.body;
-
-        var post = new Post(body);
-        post._creator = req.params.id;
-
-        post.save(function (err) {
-            if (err) return next(err);
-
-            _Admin.findById(post._creator, function(err, user){
-                user.posts.push(post);
-
-                user.save(function (err) {
-                    if (err) return next(err);
-                });
-            });
-
-            res.status(200).send( " posted: " + post);
-        });
     };
 };
 

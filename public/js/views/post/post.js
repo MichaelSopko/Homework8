@@ -15,11 +15,11 @@ define(['models/post','text!templates/post.html','Session'], function(Post, post
 		createPost: function() {
 			var thisEl = this.$el;
 			var message = thisEl.find('#message').val();
-			this.user = this.user || Session.get('user');;
+			var user = Session.get('user');
 
 			var data = {
 				name: message,
-				_creator: this.user
+				_creator: user
 			};
 
 			var post = new Post(data);

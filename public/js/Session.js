@@ -1,4 +1,4 @@
-define(['Backbone', 'router'], function( Backbone, Router){
+define(['Backbone'], function(Backbone){
 
 	var SessionModel = Backbone.Model.extend({
 		

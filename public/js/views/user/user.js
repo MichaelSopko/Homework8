@@ -6,10 +6,17 @@ define(['models/user','text!templates/user.html'], function(User, userTemplate){
 		template: _.template(userTemplate),
 
 		events: {
+			"click #find-user":'find'
 		},
 
 		initialize: function(options){
 			this.render(options);
+		},
+
+		find: function(){
+			var thisEl = this.$el;
+			var users = thisEl.find('#find').val();
+			alert(users);
 		},
 
 		render: function(options){

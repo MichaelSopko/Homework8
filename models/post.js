@@ -6,7 +6,9 @@ var mongoose = require('mongoose'),
 
 var PostSchema = Schema({
     name:{ type:String, default: ''},
-    _creator: {type: String, ref: 'user'}
+    _creator: {type: String, ref: 'user'},
+    likes: [{type: String, ref: 'user'}]
 });
+
 
 mongoose.schemas.Post = PostSchema;

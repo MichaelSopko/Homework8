@@ -1,4 +1,4 @@
-define(['text!templates/login.html','Session'], function( loginTemplate, Session){
+define(['text!templates/login.html','Session', 'router'], function( loginTemplate, Session, Router){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -28,8 +28,8 @@ define(['text!templates/login.html','Session'], function( loginTemplate, Session
                             Session.unset('redirectFrom');
                             Backbone.history.navigate(path, { trigger : true });
                         }else{
-                            //Backbone.history.fragment = '';
                             var user = Session.get("user");
+                            Backbone.history.fragment = '';
                             Backbone.history.navigate('#users/' + user._id, { trigger : true });
                         }
                     },

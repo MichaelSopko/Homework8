@@ -8,7 +8,18 @@
     </dl>
     <div class="clear"></div>
 </div>
+<button id="add-friend" type="submit" class="btn btn-primary" data-loading-text="Send...">Add to friends</button>
+<form class="navbar-form navbar-default" role="search">
+    <div id="form-group">
+        <div class="form-group">
+            <textarea class="form-control" id="message" cols="72" rows="4"></textarea>
+            <button id="send-button" type="submit" class="btn btn-primary" data-loading-text="Send...">Say something</button>
+        </div>
+    </div>
+</form>
+
 <% user.posts.forEach(function(post){ %>
+<div class="well">
     <div class="media">
         <a class="pull-left" href="#">
             <img class="media-object" height="50%" width="50%" src="<%= user.photo %>" alt="...">
@@ -18,4 +29,5 @@
             <%=post.name%>
         </div>
     </div>
+</div>
 <%})%>

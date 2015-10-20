@@ -11,7 +11,3 @@ define(['models/user'], function(Model){
 
     return Collection;
 });
-
-//sessions
-//storage
-//edit ??
