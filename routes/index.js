@@ -26,6 +26,25 @@ module.exports = function(app){
         chat.subscribe(req,res);
     });
 
+    app.get("/session", function(req, res){
+        if(req.session.user){
+            res.send(200, {
+                auth : true,
+                user : req.user
+            });
+        }else{
+            res.send(401, {
+                auth : false
+            });
+        }
+    });
+
+    app.delete("/logout", function(req, res){
+        req.session.user = null;
+        console.log(req.user);
+        res.send(200);
+    });
+
     app.use(function(err, req, res, next){
         var status = err.status || 500;
         res.status(status).send(err);

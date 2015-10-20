@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var favicon = require('serve-favicon');
+var session = require('express-session');
+
 
 var port = process.env.PORT || config.get('port');
 var db;
@@ -24,6 +26,15 @@ app.use(logger('dev'));
 
 mongoose.connect('localhost', 'mytestDb', 27017);
 db = mongoose.connection;
+
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+    secret: config.get('session:secret'),
+    key: config.get('session:key'),
+    cookie: config.get('session:cookie'),
+    store: new MongoStore({mongoose_connection: mongoose.connection})
+}));
 
 db.on('error', function(err){
     console.error(err);

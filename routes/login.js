@@ -10,7 +10,7 @@ exports.post = function(req,res,next) {
         if(err){
             return next(err);
         }
-
+        req.session.user = user._id;
         res.send(200, {
             auth : true,
             user : user

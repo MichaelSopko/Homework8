@@ -4,18 +4,23 @@
 define(['router'], function(Router){
 
     function init(){
-        var router = new Router();
-        var fragment = Backbone.history.fragment;
-        var url = window.location.hash;
+        // Session.getAuth(function(response){
 
-        Backbone.history.start();//{silent: true});
+            var router = new Router();
+            var fragment = Backbone.history.fragment;
+            var url = window.location.hash;
 
-        if (fragment){
-            Backbone.history.fragment = '';
-        } else {
-            Backbone.history.fragment = '';
-            Backbone.history.navigate(url, {trigger: true});
-        }
+            Backbone.history.start();//{silent: true});
+
+            if (fragment){
+                Backbone.history.fragment = '';
+            } else {
+                Backbone.history.fragment = '';
+                Backbone.history.navigate(url, {trigger: true});
+            }
+
+        //  });
+
     }
 
     return {
