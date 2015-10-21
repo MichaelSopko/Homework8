@@ -16,11 +16,7 @@ module.exports = function(app){
         res.sendfile("index.html");
     });
 
-    app.use('/users', function(req, res, next){
-        if(!req.session.user)
-            return next(new Error(403));
-        next();
-    }, userRouter);
+    app.use('/users', userRouter);
     app.use('/posts', function(req, res, next){
         if(!req.session.user)
             return next(new Error(403));

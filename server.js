@@ -24,7 +24,7 @@ app.use(bodyParser());
 app.use(cookieParser());
 app.use(logger('dev'));
 
-mongoose.connect('localhost', 'mytestDb', 27017);
+mongoose.connect('localhost', 'vrokashyDbTest', 27017);
 db = mongoose.connection;
 
 var MongoStore = require('connect-mongo')(session);
