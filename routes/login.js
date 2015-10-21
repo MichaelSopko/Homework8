@@ -1,19 +1,13 @@
-var mongoose = require('mongoose');
-var UserSchema = mongoose.schemas.User;
-var User = mongoose.model('user', UserSchema);
 
-exports.post = function(req,res,next) {
-    var username = req.body.username;
-    var password = req.body.password;
+module.exports = (function(){
 
-    User.autorize(username, password,  function(err, user){
-        if(err){
-            return next(err);
-        }
-        req.session.user = user._id;
-        res.send(200, {
-            auth : true,
-            user : user
-        });
-    });
-};
+    var express = require('express');
+    var LoginHandler = require('../handlers/login');
+
+    var loginRouter = express.Router();
+    var loginHandler = new LoginHandler();
+
+    loginRouter.post('/', loginHandler.auth);
+
+    return loginRouter;
+ })();

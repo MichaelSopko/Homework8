@@ -86,10 +86,10 @@ UserSchema.statics.autorize = function(login, password, callback){
                 if (user.checkPassword(password)) {
                     callback(null, user);
                 } else {
-                    callback(new Error(500, 'Password wrong'));
+                    callback(new Error('Password wrong'));
                 }
             }else {
-                 callback(new Error(500, 'User not found'));
+                callback(new Error('User not found'));
             }
         }
     ], callback);

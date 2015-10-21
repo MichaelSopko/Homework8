@@ -10,7 +10,7 @@ define(['text!templates/login.html','Session', 'router'], function( loginTemplat
 
         login: function(){
             var form = $('.login-form');
-
+console.log(form.serialize())
             $.ajax({
                 url: "/login",
                 method: "POST",
