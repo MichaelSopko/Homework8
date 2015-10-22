@@ -2,7 +2,8 @@
  * Created by Michael on 18.10.2015.
  */
 
-define(['models/user','text!templates/profile.html','models/post','Session'], function(User, userTemplate, Post,Session){
+define(['models/user','text!templates/profile.html','models/post', 'Cookie'],
+    function(User, userTemplate, Post, Cookie){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -17,21 +18,21 @@ define(['models/user','text!templates/profile.html','models/post','Session'], fu
         },
 
         createPost: function() {
-            var thisEl = this.$el;
-            var message = thisEl.find('#message').val();
-            var user = Session.get('user');
+            var self = this;
+            var message = self.$el.find('#message').val();
+            var userId = this.model;
 
             var data = {
                 name: message,
-                _creator: user
+                _creator: userId
             };
 
-            var post = new Post(data);
+            var post = new Post();
 
-            post.save({}, {
+            post.save(data, {
                 success: function (model) {
                     Backbone.history.fragment = '';
-                    Backbone.history.navigate( '#users/' + user._id, {trigger: true});
+                    Backbone.history.navigate( '#users/' + userId, {trigger: true});
                 },
                 error: function (response, xhr) {
                     alert(response.status);
@@ -40,8 +41,14 @@ define(['models/user','text!templates/profile.html','models/post','Session'], fu
         },
 
         render: function(options){
-            var user = options;
-            this.$el.html(this.template({user: user}));
+            var self = this;
+            var user =  this.model;
+            console.log("<<==PROFILE==>>");
+
+            self.$el.html(self.template({
+                user: user
+            }));
+
             return this;
         }
     });

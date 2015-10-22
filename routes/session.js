@@ -8,12 +8,12 @@ module.exports = (function(){
 
     sessionRouter.get('/', function(req, res){
         if(req.session.user){
-            res.send(200, {
+            res.status(200).send({
                 auth : true,
-                user : req.user
+                user : req.session.user
             });
         }else{
-            res.send(401, {
+            res.status(401).send({
                 auth : false
             });
         }

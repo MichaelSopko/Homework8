@@ -1,10 +1,8 @@
 /**
  * Created by Michael on 20.10.2015.
  */
-define([
-    'Session',
-    'text!templates/sidebar.html'
-], function(Session, sidebarTemplate){
+define(['text!templates/sidebar.html','models/user', 'Cookie'],
+    function(sidebarTemplate, User, Cookie){
 
     var View = Backbone.View.extend({
         el: "#sidebar",
@@ -19,15 +17,33 @@ define([
         },
 
         page: function(){
-            var user = Session.get("user");
-            Backbone.history.navigate('#users/' + user._id, { trigger : true });
+            var userId = Session.get("user");
+            Backbone.history.navigate('#users/' + userId, { trigger : true });
         },
 
         render : function(){
-            var user = Session.get('user');
-            this.$el.html(this.template({
-                user : user
-            }));
+            var user;
+            var self = this;
+            var userId = Cookie.get('user');
+            console.log("<<==SIDEBAR==>>");
+
+            if(userId){
+                user = new User({_id: userId});
+                user.fetch({
+                    success: function(model, response){
+                        self.$el.html(self.template({
+                            user: model.toJSON()
+                        }));
+                    },
+                    error: function(response){
+                        alert(response.text);
+                    }
+                });
+            }else{
+                self.$el.html(self.template({
+                    user:  null
+                }));
+            }
             return this;
         }
     });

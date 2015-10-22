@@ -26,7 +26,7 @@ var Post = function(){
     this.create = function(req, res,next){
         var body = req.body;
         var name = body.name;
-        creator = body._creator._id || req.params.id;
+        var creator = body._creator || req.params.id;
 
         var data = {
             name: name

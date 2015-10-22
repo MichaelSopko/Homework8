@@ -15,7 +15,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
             "login":"login",
             "users(/:userId)": "user",
             "posts": "posts",
-            'chat':"chat",
+            "chat":"chat",
             "*any": "any"
         },
 
@@ -35,12 +35,14 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
         login: function(){
             var login = new Login();
         },
+
         registration: function(){
             var create = new Create();
         },
 
         user: function(userId){
-            this.initialize();
+            console.log("======init======");
+          //  this.initialize();
 
             var self = this;
             var collection;
@@ -64,14 +66,14 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
 
                 collection.fetch({reset: true});
                 collection.bind('reset', renderView, this);
-            } else {
+            }else {
                 user = new User({_id: userId});
                 user.fetch({
                     success: function(model, response){
-                        self.userView = new ProfileView(model.toJSON());
+                        self.userView = new ProfileView({model: model.toJSON()});
                     },
                     error: function(model, response){
-                        alert(response.text);
+                        alert(model, response);
                     }
                 });
             }

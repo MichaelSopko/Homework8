@@ -9,6 +9,7 @@ require.config({
         Underscore: 'libs/underscore/underscore',
         jQuery: 'libs/jquery/dist/jquery',
         text: 'libs/text/text',
+        Cookie: 'libs/cookies-js/dist/cookies',
         templates: '../templates'
     },
     shim:{

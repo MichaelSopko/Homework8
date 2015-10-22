@@ -10,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var favicon = require('serve-favicon');
 var session = require('express-session');
+var checkSession = require('./middleware/checkSession');
 
 var port = process.env.PORT || config.get('port');
 var db;
@@ -39,6 +40,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+app.use(checkSession);
 
 db.on('error', function(err){
     console.error(err);

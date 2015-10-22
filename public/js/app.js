@@ -4,22 +4,19 @@
 define(['router'], function(Router){
 
     function init(){
-        // Session.getAuth(function(response){
 
-            var router = new Router();
-            var fragment = Backbone.history.fragment;
-            var url = window.location.hash;
+        var router = new Router();
+        var fragment = Backbone.history.fragment;
+        var url = window.location.hash;
 
-            Backbone.history.start();//{silent: true});
+        Backbone.history.start();//{silent: true});
 
-            if (fragment){
-                Backbone.history.fragment = '';
-            } else {
-                Backbone.history.fragment = '';
-                Backbone.history.navigate(url, {trigger: true});
-            }
-
-        //  });
+        if (fragment){
+            Backbone.history.fragment = '';
+        } else {
+               Backbone.history.fragment = '';
+            Backbone.history.navigate(url, {trigger: true});
+        }
 
     }
 

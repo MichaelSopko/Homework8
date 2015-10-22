@@ -11,13 +11,13 @@ define([],function(){
         idAttribute: '_id',
 
         urlRoot: function () {
-            return '/users';
-        },
-        parse: function(response){
-            response.fullName = response.name.first + ' ' +  response.name.last;
+            return '/users'
+        }//,
+        //parse: function(response){
+            //response.fullName = response.name.first + ' ' +  response.name.last;
 
-            return response;
-        }
+            //return response;
+        //}
     });
 
     return Model;

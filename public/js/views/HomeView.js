@@ -1,7 +1,4 @@
-define([
-	'Session',
-	'text!templates/homeTemplate.html'
-], function(Session, homeTemplate){
+define(['text!templates/homeTemplate.html'], function(homeTemplate){
 
 	var HomeView = Backbone.View.extend({
 		el: "#contentHolder",
@@ -15,10 +12,7 @@ define([
 		},
 
 		render : function(){
-			var user = Session.get('user');
-			this.$el.html(this.template({
-				user : user
-			}));
+			this.$el.html(this.template());
 			return this;
 		}
 	});

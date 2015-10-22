@@ -1,4 +1,4 @@
-define(['text!templates/login.html','Session', 'router'], function( loginTemplate, Session, Router){
+define(['text!templates/login.html'], function( loginTemplate){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -8,9 +8,14 @@ define(['text!templates/login.html','Session', 'router'], function( loginTemplat
             'click #login-button': 'login'
         },
 
+        initialize: function(){
+            this.render();
+        },
+
         login: function(){
+            var self = this;
             var form = $('.login-form');
-console.log(form.serialize())
+
             $.ajax({
                 url: "/login",
                 method: "POST",
@@ -21,17 +26,9 @@ console.log(form.serialize())
                 statusCode: {
                     200: function(response){
                         form.html  ("Welcome").addClass('alert-success');
-                        Session.set('user', JSON.stringify(response.user));
-                        Session.set('authenticated', true);
-                        if(Session.get('redirectFrom')){
-                            var path = that.get('redirectFrom');
-                            Session.unset('redirectFrom');
-                            Backbone.history.navigate(path, { trigger : true });
-                        }else{
-                            var user = Session.get("user");
-                            Backbone.history.fragment = '';
-                            Backbone.history.navigate('#users/' + user._id, { trigger : true });
-                        }
+                        var userId = response.user;
+                        Backbone.history.fragment = '';
+                        Backbone.history.navigate('#users/' + userId, { trigger : true });
                     },
                     404: function(){
                         alert("404")
@@ -41,13 +38,8 @@ console.log(form.serialize())
             return false;
         },
 
-        initialize: function(){
-            this.render();
-        },
-
         render: function(){
-            var user = Session.get("user");
-            this.$el.html(this.template({user: user}));
+            this.$el.html(this.template());
             return this;
         }
     });

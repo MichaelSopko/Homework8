@@ -7,9 +7,8 @@ module.exports = (function(){
     var logoutRouter = express.Router();
 
     logoutRouter.delete("/", function(req, res){
-        req.session.user = null;
-        console.log(req.user);
-        res.send(200);
+        req.session.destroy();
+        res.redirect('/');
     });
 
     return logoutRouter;

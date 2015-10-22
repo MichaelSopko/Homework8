@@ -1,4 +1,4 @@
-define(['models/post','text!templates/post.html','Session'], function(Post, postTemplate, Session){
+define(['models/post','text!templates/post.html','Cookie'], function(Post, postTemplate, Cookie){
 
 	var View = Backbone.View.extend({
 		el: '#contentHolder',
@@ -15,7 +15,7 @@ define(['models/post','text!templates/post.html','Session'], function(Post, post
 		createPost: function() {
 			var thisEl = this.$el;
 			var message = thisEl.find('#message').val();
-			var user = Session.get('user');
+			var user = Cookie.get('user');
 
 			var data = {
 				name: message,

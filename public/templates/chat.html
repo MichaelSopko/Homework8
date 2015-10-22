@@ -34,7 +34,7 @@
 
             xhr.onload = function(){
                 var li = document.createElement('li');
-                li.textContent = '<%- user.name.first %>: ' + this.responseText;
+                li.textContent = '<%- user %>: ' + this.responseText;
                 messages.appendChild(li);
                 subscribe();
             };

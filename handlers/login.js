@@ -8,17 +8,18 @@ var User = mongoose.model('user', UserSchema);
 var Login = function(){
 
     this.auth = function(req,res,next) {
-        var username = req.body.username;
+        var login = req.body.username;
         var password = req.body.password;
 
-        User.autorize(username, password,  function(err, user){
+        User.autorize(login, password,  function(err, user){
             if(err){
                 return next(err);
             }
+
             req.session.user = user._id;
-            res.send(200, {
+            res.status(200).send({
                 auth : true,
-                user : user
+                user : user._id
             });
         });
     };

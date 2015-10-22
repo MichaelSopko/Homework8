@@ -1,8 +1,7 @@
 /**
  * Created by Michael on 18.10.2015.
  */
-
-define(['text!templates/chat.html','Session'], function(chatTemplate, Session){
+define(['text!templates/chat.html', 'Cookie'], function(chatTemplate, Cookie){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -16,7 +15,7 @@ define(['text!templates/chat.html','Session'], function(chatTemplate, Session){
         },
 
         render: function(){
-            var user = Session.get("user");
+            var user = Cookie.get("user");
             this.$el.html(this.template({
                 user: user
             }));
