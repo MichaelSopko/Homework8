@@ -1,30 +1,24 @@
+/**
+ * Created by Michael on 23.10.2015.
+ */
+define(['models/user','text!templates/user/user.html'], function(User, userTemplate){
 
-define(['models/user','text!templates/user.html'], function(User, userTemplate){
+    var View = Backbone.View.extend({
+        tagName: 'tr',
+        template: _.template(userTemplate),
 
-	var View = Backbone.View.extend({
-		el: '#contentHolder',
-		template: _.template(userTemplate),
+        events: {
+        },
 
-		events: {
-			"click #find-user":'find'
-		},
+        initialize: function(){
+            this.render();
+        },
 
-		initialize: function(options){
-			this.render(options);
-		},
+        render: function(){
+            this.$el.html(this.template({user: this.model.toJSON()}));
+            return this;
+        }
+    });
 
-		find: function(){
-			var thisEl = this.$el;
-			var users = thisEl.find('#find').val();
-			alert(users);
-		},
-
-		render: function(options){
-			var collection = options.collection.toJSON();
-			this.$el.html(this.template({users: collection}));
-			return this;
-		}
-	});
-
-	return View;
+    return View;
 });

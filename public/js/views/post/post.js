@@ -1,46 +1,24 @@
-define(['models/post','text!templates/post.html','Cookie'], function(Post, postTemplate, Cookie){
+/**
+ * Created by Michael on 23.10.2015.
+ */
+define(['models/post','text!templates/post.html'], function(User, postTemplate){
 
-	var View = Backbone.View.extend({
-		el: '#contentHolder',
-		template: _.template(postTemplate),
+    var View = Backbone.View.extend({
+        tagName: 'li',
+        template: _.template(postTemplate),
 
-		events: {
-			'click #post-button': 'createPost'
-		},
+        events: {
+        },
 
-		initialize: function(options){
-			this.render(options);
-		},
+        initialize: function(){
+            this.render();
+        },
 
-		createPost: function() {
-			var thisEl = this.$el;
-			var message = thisEl.find('#message').val();
-			var user = Cookie.get('user');
+        render: function(){
+            this.$el.html(this.template({post: this.model.toJSON()}));
+            return this;
+        }
+    });
 
-			var data = {
-				name: message,
-				_creator: user
-			};
-
-			var post = new Post(data);
-
-			post.save({}, {
-				success: function (model) {
-					Backbone.history.fragment = '';
-					Backbone.history.navigate( "#posts", {trigger: true});
-				},
-				error: function (response, xhr) {
-					alert(response.status);
-				}
-			});
-		},
-
-		render: function(options){
-			var collection = options.collection.toJSON();
-			this.$el.html(this.template({posts: collection}));
-			return this;
-		}
-	});
-
-	return View;
+    return View;
 });

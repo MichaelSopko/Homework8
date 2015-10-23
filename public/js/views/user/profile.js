@@ -2,7 +2,7 @@
  * Created by Michael on 18.10.2015.
  */
 
-define(['models/user','text!templates/profile.html','models/post', 'Cookie'],
+define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'],
     function(User, userTemplate, Post, Cookie){
 
     var View = Backbone.View.extend({
@@ -20,7 +20,8 @@ define(['models/user','text!templates/profile.html','models/post', 'Cookie'],
         createPost: function() {
             var self = this;
             var message = self.$el.find('#message').val();
-            var userId = this.model;
+            var userId = this.model._id;
+            console.log(userId);
 
             var data = {
                 name: message,
@@ -31,6 +32,7 @@ define(['models/user','text!templates/profile.html','models/post', 'Cookie'],
 
             post.save(data, {
                 success: function (model) {
+                    //self.render();
                     Backbone.history.fragment = '';
                     Backbone.history.navigate( '#users/' + userId, {trigger: true});
                 },
@@ -40,7 +42,7 @@ define(['models/user','text!templates/profile.html','models/post', 'Cookie'],
             });
         },
 
-        render: function(options){
+        render: function(){
             var self = this;
             var user =  this.model;
             console.log("<<==PROFILE==>>");

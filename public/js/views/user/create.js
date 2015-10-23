@@ -1,4 +1,4 @@
-define(['models/user','text!templates/create.html'], function(User, createTemplate){
+define(['models/user','text!templates/user/create.html'], function(User, createTemplate){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',

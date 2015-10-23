@@ -17,7 +17,7 @@ define(['text!templates/sidebar.html','models/user', 'Cookie'],
         },
 
         page: function(){
-            var userId = Session.get("user");
+            var userId = Cookie.get("user");
             Backbone.history.navigate('#users/' + userId, { trigger : true });
         },
 

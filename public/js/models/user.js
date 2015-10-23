@@ -6,7 +6,11 @@ define([],function(){
 
     var Model = Backbone.Model.extend({
         defaults: {
-            photo: "img/placeholder.png"
+            photo: "img/placeholder.png",
+            name:{
+                first:"first",
+                last: "last"
+            }
         },
         idAttribute: '_id',
 

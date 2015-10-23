@@ -1,10 +1,10 @@
 /**
  * Created by Michael on 10.10.2015.
  */
-define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/user/user',
-        'collections/users', 'views/user/create','views/login', 'views/post/post',
+define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/user/user','views/user/users',
+        'collections/users', 'views/user/create','views/login', 'views/post/posts',
         'collections/posts', 'views/user/profile','views/chat'],
-    function(User, HeaderView, SidebarView, HomeView, UserView,
+    function(UserModel, HeaderView, SidebarView, HomeView, UserView, UsersView,
              UserCollection, Create, Login, PostView,
              PostCollection, ProfileView, ChatView){
 
@@ -41,9 +41,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
         },
 
         user: function(userId){
-            console.log("======init======");
-          //  this.initialize();
-
+            console.log("======user======");
             var self = this;
             var collection;
             var renderView;
@@ -58,7 +56,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                         self.userView.undelegateEvents();
                     }
 
-                    self.userView = new UserView({
+                    self.userView = new UsersView({
                         collection: collection
                     });
                     return self;
@@ -67,9 +65,13 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                 collection.fetch({reset: true});
                 collection.bind('reset', renderView, this);
             }else {
-                user = new User({_id: userId});
+                user = new UserModel({_id: userId});
                 user.fetch({
                     success: function(model, response){
+                        if (self.userView) {
+                            self.userView.undelegateEvents();
+                        }
+
                         self.userView = new ProfileView({model: model.toJSON()});
                     },
                     error: function(model, response){

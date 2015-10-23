@@ -14,8 +14,8 @@ define(['router'], function(Router){
         if (fragment){
             Backbone.history.fragment = '';
         } else {
-               Backbone.history.fragment = '';
-            Backbone.history.navigate(url, {trigger: true});
+            Backbone.history.fragment = '';                   //save position
+            Backbone.history.navigate(url, {trigger: true});  //
         }
 
     }

@@ -10,7 +10,7 @@ module.exports = (function(){
     var userRouter = express.Router();
     var userHandler = new UserHandler();
 
-    userRouter.get('/', checkAuth, userHandler.getAll);
+    userRouter.get('/', userHandler.getAll);
     userRouter.post('/', userHandler.create);
     userRouter.delete('/', checkAuth, userHandler.remove);
     userRouter.get('/:id', checkAuth, userHandler.getById);

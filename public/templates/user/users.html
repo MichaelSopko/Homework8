@@ -4,21 +4,14 @@
         <buttom id="find-user" type="submit" class="btn btn-primary">Find</buttom>
     </div>
 </form>
-<table class="table table-striped table-bordered table-hover table-condensed">
+<table id="userList" class="table table-striped table-bordered table-hover table-condensed">
     <thead>
     <th>login</th>
     <th>FirstName</th>
     <th>LastName</th>
     <th>DateOfBirth</th>
     </thead>
-    <% users.forEach(function(user){ %>
-    <tr>
-        <td><%=user.login%></td>
-        <td><%=user.name.first%></td>
-        <td><%=user.name.last%></td>
-        <td><%=user.dateOfBirth%></td>
-    </tr>
-    <%})%>
+
 </table>
 
 

@@ -1,5 +1,5 @@
-define(['text!templates/header.html','models/user', 'Cookie'
-], function(headerTemplate, User, Cookie){
+define(['text!templates/header.html','models/user', 'Cookie'],
+    function(headerTemplate, User, Cookie){
 
     var HeaderView = Backbone.View.extend({
         el: "#header",
@@ -33,17 +33,9 @@ define(['text!templates/header.html','models/user', 'Cookie'
             var userId = Cookie.get('user');
             console.log("<<==HEADER==>>");
             if(userId){
-                user = new User({_id: userId});
-                user.fetch({
-                    success: function(model, response){
-                        self.$el.html(self.template({
-                            user: model.toJSON()
-                        }));
-                    },
-                    error: function(response){
-                        alert(response.text);
-                    }
-                });
+                self.$el.html(self.template({
+                    user: userId
+                }));
             }else{
                 self.$el.html(self.template({
                     user:  null
