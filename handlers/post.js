@@ -58,7 +58,7 @@ var Post = function(){
                     .lean()
                     .exec(function(err, post) {
                         if (err) { return next(err); }
-                        console.log("================");
+
                         res.status(200).send(post);
                     });
             });
