@@ -58,7 +58,7 @@ var User = function(){
     };
 
     this.remove = function(req, res){
-        var id = req.body._id;
+        var id = req.params._id;
 
         _User.findByIdAndRemove(id, function (err, response) {
             if (err) {
@@ -82,18 +82,7 @@ var User = function(){
                     return next(err);
                 }
 
-                Post.find()
-                    .populate({ path: '_creator', select: 'name' })
-                    .lean()
-                    .exec(function (err, post) {
-                        if (err) {
-                            return next(err);
-                        }
-                        post.forEach(function(el){
-                            console.log(el._creator);
-                        });
-                        res.status(200).send(response);
-                    });
+                res.status(200).send(response);
             });
     };
 
@@ -131,20 +120,6 @@ var User = function(){
                 res.status(404).send('not found user');
             }
         });
-    };
-
-    this.getPostsById = function(req, res, next){
-        var userPageId = req.params.id;
-
-        Post.find({owner: userPageId})
-            .populate('_creator')
-            .lean()
-            .exec(function (err, posts) {
-                if (err) {
-                    return next(err);
-                }
-                res.status(200).send(posts);
-            });
     };
 
     this.findByName =  function(req, res, next){

@@ -4,7 +4,8 @@
 define(['models/user','text!templates/user/user.html'], function(User, userTemplate){
 
     var View = Backbone.View.extend({
-        tagName: 'tr',
+        tagName: 'li',
+        className: "page-container",
         template: _.template(userTemplate),
 
         events: {

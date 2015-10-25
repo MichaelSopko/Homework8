@@ -5,11 +5,19 @@ define(['models/user','text!templates/user/users.html', 'views/user/user'], func
 		template: _.template(userTemplate),
 
 		events: {
-			"click #find-user":'find'
+			"click #find-user":'find',
+			"click h1":'userPage'
 		},
 
 		initialize: function(){
 			this.render();
+		},
+
+		userPage: function(e){
+			var targetEl = $(e.target);
+			var el = targetEl.closest('div');
+			var id = el.attr('id');
+			Backbone.history.navigate('#users/' + id, {trigger: true});
 		},
 
 		find: function(){

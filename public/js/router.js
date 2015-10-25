@@ -2,7 +2,7 @@
  * Created by Michael on 10.10.2015.
  */
 define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/user/user','views/user/users',
-        'collections/users', 'views/user/create','views/login', 'views/post/posts',
+        'collections/users', 'views/user/create','views/login', 'views/post/allPosts',
         'collections/posts', 'views/user/profile','views/chat', 'views/user/friends'],
     function(UserModel, HeaderView, SidebarView, HomeView, UserView, UsersView,
              UserCollection, Create, Login, PostView,
@@ -42,7 +42,6 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
         },
 
         user: function(userId){
-            this.initialize();
             console.log("======user======");
             var self = this;
             var collection;
@@ -74,13 +73,14 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                         if (self.userView) {
                             self.userView.undelegateEvents();
                         }
-
                         self.userView = new ProfileView({model: model.toJSON()});
+                        self.initialize();
                     },
                     error: function(model, response){
                         alert(model, response);
                     }
                 });
+                console.log("fetch");
             }
         },
 

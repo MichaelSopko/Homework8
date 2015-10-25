@@ -1,4 +1,5 @@
-define(['models/post','text!templates/post/posts.html','Cookie', 'views/post/post'], function(Post, postTemplate, Cookie,PostView){
+define(['models/post','text!templates/post/posts.html','Cookie', 'views/post/post'],
+	function(Post, postTemplate, Cookie,PostView){
 
 	var View = Backbone.View.extend({
 		el: '#contentHolder',

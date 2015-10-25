@@ -2,8 +2,9 @@
  * Created by Michael on 18.10.2015.
  */
 
-define(['models/user','text!templates/user/profile.html','models/post', 'Cookie', 'views/user/posts', 'collections/userPosts'],
-    function(User, userTemplate, Post, Cookie, UserPostsView, UserPostCollection){
+define(['models/user','text!templates/user/profile.html','models/post', 'Cookie',
+        'views/post/userPosts', 'collections/posts'],
+    function(User, userTemplate, Post, Cookie, UserPostsView, PostCollection){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -48,9 +49,9 @@ define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'
             self.$el.html(self.template({
                 user: user
             }));
-            var urlUs = '/users/' + user._id + '/posts';
 
-            var postCollection = new UserPostCollection();
+            var postCollection = new PostCollection();
+            var urlUs = postCollection.url + '/user/' + user._id;
             postCollection.url = urlUs;
             postCollection.unbind();
             var postRenderView = function(){
@@ -64,12 +65,10 @@ define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'
 
                 return self;
             };
-            //var user1 = new UserModel({_id: userId});
 
             postCollection.fetch({reset:true});
             postCollection.bind('reset', postRenderView, this);
 
-            //return this;
         }
     });
 

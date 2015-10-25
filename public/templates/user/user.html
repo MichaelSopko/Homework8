@@ -1,4 +1,14 @@
-<td><%=user.login%></td>
-<td><%=user.name.first%></td>
-<td><%=user.name.last%></td>
-<td><%=user.dateOfBirth%></td>
+<div id="<%= user._id%>" class="contact-container">
+    <img src="<%= user.photo %>" alt="<%= name %>" />
+    <a><h1><%=user.name.first%> <%=user.name.last%></h1></a>
+    <div><%=user.dateOfBirth%></div>
+    <dl>
+        <dt>Age:</dt><dd><%= user.age %></dd>
+        <dt>Email:</dt><dd><a href="mailTo:<%= user.email %>"><%= user.email %></a></dd>
+    </dl>
+    <div class="clear"></div>
+    <button type="submit" class=" add-friend btn btn-primary" data-loading-text="Send...">Add to friends</button>
+</div>
+
+
+

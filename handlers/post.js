@@ -91,9 +91,23 @@ var Post = function(){
                 }
 
                 res.status(200).send(response);
-            });
+            })
     };
 
+    this.getUserPagePosts = function(req, res){
+        var userPageId = req.params.id;
+
+        _Post.find({owner: userPageId})
+            .populate('_creator', 'name')
+            .populate('comments._creator', 'name')
+            .lean()
+            .exec(function (err, posts) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(posts);
+            });
+    };
 };
 
 module.exports = Post;
