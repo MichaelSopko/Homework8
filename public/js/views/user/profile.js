@@ -2,35 +2,33 @@
  * Created by Michael on 18.10.2015.
  */
 
-define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'],
-    function(User, userTemplate, Post, Cookie){
+define(['models/user','text!templates/user/profile.html','models/post', 'Cookie', 'views/user/posts', 'collections/userPosts'],
+    function(User, userTemplate, Post, Cookie, UserPostsView, UserPostCollection){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
         template: _.template(userTemplate),
 
         events: {
-            'click #send-button': 'createPost'
+            'click .add-friend': 'addFriend'
         },
 
         initialize: function(options){
             this.render(options);
         },
 
-        createPost: function() {
-            var self = this;
-            var message = self.$el.find('#message').val();
-            var userId = this.model._id;
+        addFriend: function(e){
+            var targetEl = $(e.target);
+            var el = targetEl.closest('.contact-container');
+            var id = el.attr('id');
+            var userId = Cookie.get("user");
+
+            console.log(id);
             console.log(userId);
 
-            var data = {
-                name: message,
-                _creator: userId
-            };
+            var user = new User({_id: userId});
 
-            var post = new Post();
-
-            post.save(data, {
+            user.save({friend: id}, {
                 success: function (model) {
                     //self.render();
                     Backbone.history.fragment = '';
@@ -50,10 +48,30 @@ define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'
             self.$el.html(self.template({
                 user: user
             }));
+            var urlUs = '/users/' + user._id + '/posts';
 
-            return this;
+            var postCollection = new UserPostCollection();
+            postCollection.url = urlUs;
+            postCollection.unbind();
+            var postRenderView = function(){
+                if (self.postView) {
+                    self.postView.undelegateEvents();
+                }
+
+                self.postView = new UserPostsView({
+                    collection: postCollection
+                });
+
+                return self;
+            };
+            //var user1 = new UserModel({_id: userId});
+
+            postCollection.fetch({reset:true});
+            postCollection.bind('reset', postRenderView, this);
+
+            //return this;
         }
     });
 
     return View;
-});
+})

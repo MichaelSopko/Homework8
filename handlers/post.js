@@ -12,7 +12,8 @@ var Post = function(){
     this.getAll = function(req, res, next){
         _Post
             .find()
-            .populate('_creator')
+            .populate('_creator', 'name')
+            .populate('comments._creator', 'name')
             .lean()
             .exec(function (err, response) {
                 if (err) {
@@ -25,20 +26,23 @@ var Post = function(){
 
     this.create = function(req, res,next){
         var body = req.body;
-        var name = body.name;
-        var creator = body._creator || req.params.id;
+        var text = body.text;
+        var creator = body._creator;
+
+        var userPageId = req.params.id;
 
         var data = {
-            name: name
+            text: text,
+            _creator: creator,
+            owner: userPageId
         };
 
         var post = new _Post(data);
 
-        _User.findById(creator, function (err, user) {
+        _User.findById(userPageId, function (err, user) {
             if (err) return next(err);
 
             if(user){
-                post._creator = user;
                 user.posts.push(post._id);
                 user.save(function (err) {
                     if (err) return next(err);
@@ -47,13 +51,22 @@ var Post = function(){
 
             post.save(function (err, post) {
                 if (err) { return next(err); }
-                res.status(200).send(post);
+
+                _Post.findById(post._id)
+                    .populate('_creator', 'name')
+                    .populate('comments._creator', 'name')
+                    .lean()
+                    .exec(function(err, post) {
+                        if (err) { return next(err); }
+                        console.log("================");
+                        res.status(200).send(post);
+                    });
             });
         });
     };
 
     this.remove = function(req, res){
-        var id = req.body._id;
+        var id = req.params.id;
 
         _Post.findByIdAndRemove(id, function (err, response) {
             if (err) {
@@ -69,7 +82,8 @@ var Post = function(){
 
         _Post
             .findById(id)
-            .populate('_creator')
+            .populate('_creator', 'name')
+            .populate('comments._creator', 'name')
             .lean()
             .exec(function (err, response) {
                 if (err) {

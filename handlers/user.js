@@ -32,6 +32,7 @@ var User = function(){
         var lastName = body.lastName;
         var email = body.email;
         var dateOfBirth = body.dateOfBirth;
+        var phone = body.phone;
 
         var data = {
             name: {
@@ -41,7 +42,8 @@ var User = function(){
             login: login,
             password: password,
             email: email,
-            dateOfBirth: dateOfBirth
+            dateOfBirth: dateOfBirth,
+            phone: phone
         };
 
         var user = new _User(data);
@@ -51,7 +53,7 @@ var User = function(){
                 return next(err);
             }
 
-            res.status(200).send(user);
+            res.status(200).send({});
         });
     };
 
@@ -68,18 +70,80 @@ var User = function(){
     };
 
     this.getById = function(req, res, next){
+
         var id = req.params.id;
 
         _User
             .findById(id)
             .populate('posts friends')
             .lean()
-            .exec(function (err, response) {
+            .exec(function (err, response){
                 if (err) {
                     return next(err);
                 }
 
-                res.status(200).send(response);
+                Post.find()
+                    .populate({ path: '_creator', select: 'name' })
+                    .lean()
+                    .exec(function (err, post) {
+                        if (err) {
+                            return next(err);
+                        }
+                        post.forEach(function(el){
+                            console.log(el._creator);
+                        });
+                        res.status(200).send(response);
+                    });
+            });
+    };
+
+    this.changeUser = function(req, res,next){
+        var body = req.body;
+        var _id = req.params.id;
+        var id = body.friend;
+
+
+        _User.findById(_id, function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            if(user){
+                var user1 = user;
+                _User.findById(id, function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    var user2 = user;
+                    user2.friends.push(user1._id);
+                    user2.save(function (err) {
+                        if (err) return next(err);
+                    });
+
+                    user1.friends.push(user2._id);
+                    user1.save(function (err) {
+                        if (err) return next(err);
+                    });
+                });
+
+                res.status(200).send([]);
+            }else{
+                res.status(404).send('not found user');
+            }
+        });
+    };
+
+    this.getPostsById = function(req, res, next){
+        var userPageId = req.params.id;
+
+        Post.find({owner: userPageId})
+            .populate('_creator')
+            .lean()
+            .exec(function (err, posts) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).send(posts);
             });
     };
 
@@ -99,6 +163,7 @@ var User = function(){
                 res.status(200).send(response);
             });
     };
+
 };
 
 module.exports = User;

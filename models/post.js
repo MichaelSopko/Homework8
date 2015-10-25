@@ -5,10 +5,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var PostSchema = Schema({
-    name:{ type:String, default: ''},
-    _creator: {type: String, ref: 'user'},
-    likes: [{type: String, ref: 'user'}]
+    text: String,
+    _creator: {type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+    owner:{type: mongoose.Schema.Types.ObjectId, ref: 'user'},
+    likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
+    comments: [{
+        text: String,
+        _creator: {type: mongoose.Schema.Types.ObjectId, ref: 'user'}
+    }]
 });
-
 
 mongoose.schemas.Post = PostSchema;

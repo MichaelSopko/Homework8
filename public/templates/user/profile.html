@@ -1,33 +1,14 @@
-<div class="contact-container">
-    <img src="<%= user.photo %>" alt="<%= name %>" />
-    <h1><%=user.name.first%> <%=user.name.last%></h1>
-    <div><%=user.dateOfBirth%></div>
-    <dl>
-        <dt>Age:</dt><dd><%= user.age %></dd>
-        <dt>Email:</dt><dd><a href="mailTo:<%= user.email %>"><%= user.email %></a></dd>
-    </dl>
-    <div class="clear"></div>
-</div>
-<button id="add-friend" type="submit" class="btn btn-primary" data-loading-text="Send...">Add to friends</button>
-<div class="nav navbar-default">
-    <div id="form-group">
-        <div class="form-group">
-            <textarea class="form-control" id="message" cols="72" rows="4"></textarea>
-            <button id="send-button" type="submit" class="btn btn-primary" data-loading-text="Send...">Say something</button>
-        </div>
+<div id="<%= user._id%>" class="page-container">
+    <div  class="contact-container">
+        <img src="<%= user.photo %>" alt="<%= name %>" />
+        <h1><%=user.name.first%> <%=user.name.last%></h1>
+        <div><%=user.dateOfBirth%></div>
+        <dl>
+            <dt>Age:</dt><dd><%= user.age %></dd>
+            <dt>Email:</dt><dd><a href="mailTo:<%= user.email %>"><%= user.email %></a></dd>
+        </dl>
+        <div class="clear"></div>
+        <button type="submit" class=" add-friend btn btn-primary" data-loading-text="Send...">Add to friends</button>
     </div>
+    <div id="userPosts"></div>
 </div>
-
-<% user.posts.forEach(function(post){ %>
-<div class="well">
-    <div class="media">
-        <a class="pull-left" href="#">
-            <img class="media-object" height="50%" width="50%" src="<%= user.photo %>" alt="...">
-        </a>
-        <div class="media-body">
-            <h4 class="media-heading"><%=user.name.first%> <%=user.name.last%></h4>
-            <%=post.name%>
-        </div>
-    </div>
-</div>
-<%})%>

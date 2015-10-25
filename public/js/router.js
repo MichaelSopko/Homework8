@@ -3,10 +3,10 @@
  */
 define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/user/user','views/user/users',
         'collections/users', 'views/user/create','views/login', 'views/post/posts',
-        'collections/posts', 'views/user/profile','views/chat'],
+        'collections/posts', 'views/user/profile','views/chat', 'views/user/friends'],
     function(UserModel, HeaderView, SidebarView, HomeView, UserView, UsersView,
              UserCollection, Create, Login, PostView,
-             PostCollection, ProfileView, ChatView){
+             PostCollection, ProfileView, ChatView, FriendsView){
 
     var Router = Backbone.Router.extend({
         routes: {
@@ -14,6 +14,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
             "registration":"registration",
             "login":"login",
             "users(/:userId)": "user",
+            "users(/:userId)/friends": "userFriends",
             "posts": "posts",
             "chat":"chat",
             "*any": "any"
@@ -41,6 +42,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
         },
 
         user: function(userId){
+            this.initialize();
             console.log("======user======");
             var self = this;
             var collection;
@@ -66,6 +68,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                 collection.bind('reset', renderView, this);
             }else {
                 user = new UserModel({_id: userId});
+
                 user.fetch({
                     success: function(model, response){
                         if (self.userView) {
@@ -79,6 +82,30 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                     }
                 });
             }
+        },
+
+        userFriends: function(userId){
+            this.initialize();
+            console.log("======userFr======");
+            var self = this;
+            var collection;
+            var renderView;
+            var user;
+
+            user = new UserModel({_id: userId});
+            user.fetch({
+                success: function(model, response){
+                    if (self.userView) {
+                        self.userView.undelegateEvents();
+                    }
+
+                    self.userView = new FriendsView({model: model.toJSON()});
+                },
+                error: function(model, response){
+                    alert(model, response);
+                }
+            });
+
         },
 
         posts: function(){

@@ -9,7 +9,8 @@ define(['text!templates/sidebar.html','models/user', 'Cookie'],
         template : _.template(sidebarTemplate),
 
         events : {
-            'click #my-page' : 'page'
+            'click #my-page' : 'page',
+            'click #my-friends' : 'friends'
         },
 
         initialize: function(){
@@ -19,6 +20,11 @@ define(['text!templates/sidebar.html','models/user', 'Cookie'],
         page: function(){
             var userId = Cookie.get("user");
             Backbone.history.navigate('#users/' + userId, { trigger : true });
+        },
+
+        friends: function(){
+            var userId = Cookie.get("user");
+            Backbone.history.navigate('#users/' + userId + '/friends', { trigger : true });
         },
 
         render : function(){

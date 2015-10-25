@@ -10,8 +10,8 @@ module.exports = (function(){
     var postHandler = new PostHandler();
 
     postRouter.get('/', postHandler.getAll);
-    postRouter.post('/', postHandler.create);
-    postRouter.delete('/', postHandler.remove);
+    postRouter.post('/:id', postHandler.create);
+    postRouter.delete('/:id', postHandler.remove);
     postRouter.get('/:id', postHandler.getById);
 
     return postRouter;

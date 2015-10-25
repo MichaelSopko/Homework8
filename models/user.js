@@ -33,7 +33,9 @@ var UserSchema = Schema({
     },
     age: Number,
     posts: [{type: String, ref: 'post'}],
-    friends: [{type: String, ref: 'user'}],
+    friends: [{type: String, unique: true, ref: 'user'}],
+    myProposals: [{type: String, unique: true, ref: 'user'}],
+    proposals: [{type: String, unique: true, ref: 'user'}],
     admin: {type: Boolean, default: false},
     created: {
         type: Date,

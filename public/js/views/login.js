@@ -31,10 +31,10 @@ define(['text!templates/login.html','views/user/profile','views/header', 'views/
                 statusCode: {
                     200: function(response){
                         //form.html  ("Welcome").addClass('alert-success');
-                        window.location.replace('#');
-                       /* var userId = response.user;
+                       // window.location.replace('#');
+                        var userId = response.user;
                         Backbone.history.fragment = '';
-                        Backbone.history.navigate('#users/' + userId, { trigger : true });*/
+                        Backbone.history.navigate('#users/' + userId, { trigger : true });
 
                     },
                     404: function(){

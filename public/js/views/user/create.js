@@ -1,4 +1,4 @@
-define(['models/user','text!templates/user/create.html'], function(User, createTemplate){
+define(['models/user','text!templates/user/create.html'], function(UserModel, createTemplate){
 
     var View = Backbone.View.extend({
         el: '#contentHolder',
@@ -20,6 +20,7 @@ define(['models/user','text!templates/user/create.html'], function(User, createT
             var pass = thisEl.find('#input-password').val();
             var email = thisEl.find('#input-email').val();
             var date = thisEl.find('#input-date').val();
+            var phone = thisEl.find('#input-phone').val();
 
             var data = {
                 firstName: firstName,
@@ -27,13 +28,14 @@ define(['models/user','text!templates/user/create.html'], function(User, createT
                 login: login,
                 password: pass,
                 email: email,
-                dateOfBirth: date
+                dateOfBirth: date,
+                phone: phone
             };
 
-            var user = new User(data);
+            var user = new UserModel(data);
 
             user.save({}, {
-                success: function(model){
+                success: function(){
                     Backbone.history.navigate('#login', {trigger: true});
                 },
                 error: function(response, xhr){

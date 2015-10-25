@@ -1,4 +1,4 @@
-define(['models/post','text!templates/posts.html','Cookie', 'views/post/post'], function(Post, postTemplate, Cookie,PostView){
+define(['models/post','text!templates/post/posts.html','Cookie', 'views/post/post'], function(Post, postTemplate, Cookie,PostView){
 
 	var View = Backbone.View.extend({
 		el: '#contentHolder',
@@ -13,12 +13,13 @@ define(['models/post','text!templates/posts.html','Cookie', 'views/post/post'], 
 		},
 
 		createPost: function() {
+			var self = this;
 			var thisEl = this.$el;
 			var message = thisEl.find('#message').val();
 			var user = Cookie.get('user');
 
 			var data = {
-				name: message,
+				text: message,
 				_creator: user
 			};
 
@@ -26,8 +27,8 @@ define(['models/post','text!templates/posts.html','Cookie', 'views/post/post'], 
 
 			post.save({}, {
 				success: function (model) {
-					Backbone.history.fragment = '';
-					Backbone.history.navigate( "#posts", {trigger: true});
+					self.addOne(model);
+					thisEl.find('#message').val('');
 				},
 				error: function (response, xhr) {
 					alert(response.status);
@@ -35,12 +36,14 @@ define(['models/post','text!templates/posts.html','Cookie', 'views/post/post'], 
 			});
 		},
 
+		addOne: function(post){
+			var view = new PostView({model: post});
+			$('#postList').append(view.el);
+		},
+
 		render: function(){
 			this.$el.html(this.template());
-			this.collection.each(function(post){
-				var view = new PostView({model: post});
-				$('#postList').append(view.el);
-			}, this);
+			this.collection.each(this.addOne, this);
 			return this;
 		}
 	});

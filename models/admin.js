@@ -7,10 +7,10 @@ var extend = require('mongoose-schema-extend');
 var Schema = mongoose.schemas.User;
 
 var SuperAdminSchema = Schema.extend({
-    name:{
+    /*name:{
         first: {type:String, default: 'Admin'},
         last: {type:String, default: 'Admin'}
-    },
+    },*/
     admin: {type: Boolean, default: true}
 });
 

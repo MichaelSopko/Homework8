@@ -1,8 +1,9 @@
-<div class="well">
+<div class="well" id="<%= post._id%>">
     <div class="media">
         <div class="media-body">
             <h4 class="media-heading"><%= post._creator.name.first%> <%= post._creator.name.last%></h4>
-            <%=post.name%>
+            <%=post.text%>
         </div>
+        <button id="delete-post" type="submit" class="btn" data-loading-text="Delete...">Delete</button>
     </div>
 </div>
