@@ -91,7 +91,6 @@ var User = function(){
         var _id = req.params.id;
         var id = body.friend;
 
-
         _User.findById(_id, function (err, user) {
             if (err) {
                 return next(err);

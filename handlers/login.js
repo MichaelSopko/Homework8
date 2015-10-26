@@ -21,6 +21,7 @@ var Login = function(){
                 auth : true,
                 user : user._id
             });
+
         });
     };
 };

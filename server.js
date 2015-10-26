@@ -18,17 +18,7 @@ var app = express();
 mongoose.schemas = {};
 
 require('./models');
-/*var post = new _Post({
- text: "Hello World",
- _creator: alex._id,
- comments: [{
- text: "Nice post!",
- _creator: joe._id
- }, {
- text: "Thanks :)",
- _creator: alex._id
- }]
- });*/
+
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

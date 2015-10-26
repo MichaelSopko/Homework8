@@ -12,7 +12,11 @@ var PostSchema = Schema({
     comments: [{
         text: String,
         _creator: {type: mongoose.Schema.Types.ObjectId, ref: 'user'}
-    }]
+    }],
+    created: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 mongoose.schemas.Post = PostSchema;

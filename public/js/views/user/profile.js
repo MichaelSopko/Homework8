@@ -20,7 +20,7 @@ define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'
 
         addFriend: function(e){
             var targetEl = $(e.target);
-            var el = targetEl.closest('.contact-container');
+            var el = targetEl.closest('.page-container');
             var id = el.attr('id');
             var userId = Cookie.get("user");
 

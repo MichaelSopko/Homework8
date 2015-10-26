@@ -74,7 +74,7 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
                             self.userView.undelegateEvents();
                         }
                         self.userView = new ProfileView({model: model.toJSON()});
-                        self.initialize();
+                        //self.initialize();
                     },
                     error: function(model, response){
                         alert(model, response);
