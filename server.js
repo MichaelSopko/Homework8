@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
-//app.use(logger('dev'));
+app.use(logger('dev'));
 
 mongoose.connect('localhost', 'vrokashyDbTest', 27017);
 db = mongoose.connection;
