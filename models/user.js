@@ -3,6 +3,7 @@
  */
 var crypto = require('crypto');
 var async = require('async');
+var validator = require('validator');
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
@@ -25,8 +26,12 @@ var UserSchema = Schema({
         first: {type:String, default: 'Ivan'},
         last: {type:String, default: 'Pupkin'}
     },
-    email: String,
-    phone: Number,
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    phone: {type: String},
     dateOfBirth: {
         type: Date,
         default: Date.now
@@ -44,12 +49,68 @@ var UserSchema = Schema({
 });
 
 UserSchema.pre('save', function(next){
+    var user = this;
+
+    if (!validator.isLength(user.name.first, 1, 50)) {
+        return next(new Error('Name must be between 1 and 50 characters.'));
+    }
+
+    if (!validator.isLength(user.name.last, 1, 50)) {
+        return next(new Error('Name must be between 1 and 50 characters.'));
+    }
+
+    if (!validator.isLength(user.login, 4, 16)) {
+        return next(new Error('Login must be between 4 and 16 characters.'));
+    }
+
+    if (!validator.isLength(user.password, 8, 16)) {
+        return next(new Error('Password must be between 8 and 16 characters.'));
+    }
+
+    if (!validator.isEmail(user.email)) {
+        return next(new Error('Email must be example@example.com'));
+    }
+
+    if (!validator.isNumeric(user.phone)) {
+        return next(new Error('Phone must be a number'));
+    }
+
     var dOb = this.dateOfBirth;
 
     this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24/ 365;
 
     next();
 });
+
+UserSchema.path('login').validate(function (value, respond) {
+    var UserModel = mongoose.model('user');
+    UserModel.findOne({login: value }, function (err, user) {
+        if (err) {
+            return respond(err);
+        }
+        if(user) {
+            respond(false);
+        }else{
+            respond(true);
+        }
+
+    });
+}, 'This login is already registered');
+
+UserSchema.path('email').validate(function (value, respond) {
+    var UserModel = mongoose.model('user');
+    UserModel.findOne({email: value }, function (err, user) {
+        if (err) {
+            return respond(err);
+        }
+        if(user) {
+            respond(false);
+        }else{
+            respond(true);
+        }
+
+    });
+}, 'This email address is already registered');
 
 UserSchema.virtual('fullName')
     .get(function(){

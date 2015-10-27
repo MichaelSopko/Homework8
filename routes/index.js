@@ -12,9 +12,8 @@ module.exports = function(app){
     var logoutRouter = require('./logout');
     var singUpRouter = require('./singUp');
 
-    app.get('/', function(req, res, next){
-        var path = __dirname.split('\\').slice(0, -1).join('\\') + '\\';
-        res.sendFile(path + 'index.html');
+    app.get('/', function(req, res, next) {
+        res.render('index', { title: 'Vrakashy'});
     });
 
     app.use('/users', userRouter);
@@ -25,9 +24,4 @@ module.exports = function(app){
     app.use('/chat', checkAuth, chatRouter);
     app.use('/singUp', singUpRouter);
 
-    app.use(function(err, req, res, next){
-        console.error(err);
-        var status = err.status || 500;
-        res.status(status).send(err);
-    });
 };

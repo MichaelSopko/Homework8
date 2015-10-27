@@ -50,7 +50,14 @@ var User = function(){
 
         user.save(function (err, user) {
             if (err) {
-                return next(err);
+                if (err.name == 'ValidationError') {
+                    for (var field in err.errors) {
+                        var error = err.errors[field].message;
+                    }
+                    return next(new Error(error));
+                }else{
+                    return next(err);
+                }
             }
 
             res.status(200).send({});

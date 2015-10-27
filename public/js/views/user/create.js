@@ -39,7 +39,9 @@ define(['models/user','text!templates/user/create.html'], function(UserModel, cr
                     Backbone.history.navigate('#login', {trigger: true});
                 },
                 error: function(response, xhr){
-                    alert(response.status);
+                    window.location.replace('#registration');
+                    $("#err").html(xhr.responseText).addClass('alert-danger');
+                    //alert(xhr.responseText);
                 }
             });
 

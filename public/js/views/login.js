@@ -17,7 +17,7 @@ define(['text!templates/login.html','views/user/profile','views/header', 'views/
             e.preventDefault();
             var self = this;
             var form = $('.login-form');
-
+            console.log(form.serialize());
 
             $.ajax({
                 url: "/login",
@@ -25,20 +25,20 @@ define(['text!templates/login.html','views/user/profile','views/header', 'views/
                 data: form.serialize(),
                 complete: function () {
                     console.log('complete..');
-                    var sidebarView = new SidebarView();
-                    var headerView = new HeaderView();
                 },
                 statusCode: {
                     200: function(response){
-                        //form.html  ("Welcome").addClass('alert-success');
+                        form.html  ("Welcome").addClass('alert-success');
                        // window.location.replace('#');
                         var userId = response.user;
                         Backbone.history.fragment = '';
                         Backbone.history.navigate('#users/' + userId, { trigger : true });
 
                     },
-                    404: function(){
-                        alert("404")
+                    500: function(response){
+                        window.location.replace('#login');
+                        $("#error").html(response.responseText).addClass('alert-danger');
+                        //alert(response.responseText);
                     }
                 }
             });
