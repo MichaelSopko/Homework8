@@ -11,6 +11,7 @@ var logger = require('morgan');
 var favicon = require('serve-favicon');
 var session = require('express-session');
 var checkSession = require('./middleware/checkSession');
+var methodOverride = require('method-override')
 
 var port = process.env.PORT || config.get('port');
 var db;
@@ -46,6 +47,7 @@ app.use(session({
 }));
 
 app.use(checkSession);
+app.use(methodOverride('_method'));
 
 db.on('connected', function() {
     console.log('Connected to dataBase');

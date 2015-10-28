@@ -48,8 +48,7 @@ var UserSchema = Schema({
     }
 });
 
-UserSchema.pre('save', function(next){
-    var user = this;
+UserSchema.statics.validate = function(user, next){
 
     if (!validator.isLength(user.name.first, 1, 50)) {
         return next(new Error('Name must be between 1 and 50 characters.'));
@@ -75,42 +74,41 @@ UserSchema.pre('save', function(next){
         return next(new Error('Phone must be a number'));
     }
 
+    var UserModel = mongoose.model('user');
+    UserModel.findOne({login: user.login }, function (err, user) {
+        if (err) {
+            console.log(err);
+            return next(err);
+        }
+        if(user) {
+            return next(new Error('This login is already registered'));
+        }
+    });
+
+    UserModel.findOne({email: user.email}, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if(user) {
+            return next(new Error('This email address is already registered'));
+        }
+    });
+
+
+    next();
+};
+
+UserSchema.pre('save', function(next){
+    var user = this;
+    console.log('2');
+
     var dOb = this.dateOfBirth;
 
-    this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24/ 365;
+        this.age = (new Date() - new Date(dOb)) / 1000 / 60 / 60 / 24 / 365;
 
     next();
 });
 
-UserSchema.path('login').validate(function (value, respond) {
-    var UserModel = mongoose.model('user');
-    UserModel.findOne({login: value }, function (err, user) {
-        if (err) {
-            return respond(err);
-        }
-        if(user) {
-            respond(false);
-        }else{
-            respond(true);
-        }
-
-    });
-}, 'This login is already registered');
-
-UserSchema.path('email').validate(function (value, respond) {
-    var UserModel = mongoose.model('user');
-    UserModel.findOne({email: value }, function (err, user) {
-        if (err) {
-            return respond(err);
-        }
-        if(user) {
-            respond(false);
-        }else{
-            respond(true);
-        }
-
-    });
-}, 'This email address is already registered');
 
 UserSchema.virtual('fullName')
     .get(function(){

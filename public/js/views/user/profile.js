@@ -27,8 +27,8 @@ define(['models/user','text!templates/user/profile.html','models/post', 'Cookie'
             console.log(id);
             console.log(userId);
 
-            var user = new User({_id: userId});
-
+            var user = new User();
+            user.url = '/users/' + userId + '/friends';
             user.save({friend: id}, {
                 success: function (model) {
                     //self.render();

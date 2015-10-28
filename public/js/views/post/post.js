@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 23.10.2015.
  */
-define(['models/post','text!templates/post/post.html'], function(Post, postTemplate){
+define(['models/post','text!templates/post/post.html', 'Cookie'], function(Post, postTemplate, Cookie){
 
     var View = Backbone.View.extend({
         tagName: 'li',
@@ -34,9 +34,11 @@ define(['models/post','text!templates/post/post.html'], function(Post, postTempl
         },
 
         render: function(){
-            console.log(this.model);
-
-            this.$el.html(this.template({post: this.model.toJSON()}));
+            var user = Cookie.get("user");
+            this.$el.html(this.template({
+                post: this.model.toJSON(),
+                user: user
+            }));
             return this;
         }
     });

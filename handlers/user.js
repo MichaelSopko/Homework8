@@ -47,20 +47,17 @@ var User = function(){
         };
 
         var user = new _User(data);
-
-        user.save(function (err, user) {
-            if (err) {
-                if (err.name == 'ValidationError') {
-                    for (var field in err.errors) {
-                        var error = err.errors[field].message;
-                    }
-                    return next(new Error(error));
-                }else{
+        _User.validate(user ,function(err){
+            if(err){
+                return next(err);
+            }
+            user.save(function (err, user) {
+                if (err) {
                     return next(err);
                 }
-            }
 
-            res.status(200).send({});
+                res.status(200).send({});
+            });
         });
     };
 
@@ -93,7 +90,7 @@ var User = function(){
             });
     };
 
-    this.changeUser = function(req, res,next){
+    this.addFriend = function(req, res,next){
         var body = req.body;
         var _id = req.params.id;
         var id = body.friend;
@@ -108,17 +105,31 @@ var User = function(){
                     if (err) {
                         return next(err);
                     }
-
                     var user2 = user;
-                    user2.friends.push(user1._id);
-                    user2.save(function (err) {
-                        if (err) return next(err);
+
+                    user1.myProposals.forEach(function(proposal) {
+                        console.log(proposal);
+                        if(user2._id == proposal){
+                            return next("User is already added");
+                        }
                     });
 
-                    user1.friends.push(user2._id);
+                    user1.proposals.push(user2._id);
+
+                    user1.modified = new Date();
+
+                    user1.saveWithoutValidation(function(err) {
+                        console.log(err)
+                        if (err)
+                            console.log('error')
+                        else
+                            console.log('success')
+                    });
+
+                    /*user1.myProposals.push(user1._id);
                     user1.save(function (err) {
                         if (err) return next(err);
-                    });
+                    });*/
                 });
 
                 res.status(200).send([]);

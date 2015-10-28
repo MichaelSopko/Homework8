@@ -4,6 +4,8 @@
             <h4 class="media-heading"><%= post._creator.name.first%> <%= post._creator.name.last%></h4>
             <%=post.text%>
         </div>
+        <% if(user == post._creator._id){%>
         <button id="delete-post" type="submit" class="btn" data-loading-text="Delete...">Delete</button>
+        <%}%>
     </div>
 </div>

@@ -33,9 +33,9 @@ define(['models/user','text!templates/user/create.html'], function(UserModel, cr
             };
 
             var user = new UserModel(data);
-
             user.save({}, {
                 success: function(){
+                    console.log("ok");
                     Backbone.history.navigate('#login', {trigger: true});
                 },
                 error: function(response, xhr){

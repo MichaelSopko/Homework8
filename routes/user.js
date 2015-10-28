@@ -15,7 +15,8 @@ module.exports = (function(){
     userRouter.delete('/:id', checkAuth, userHandler.remove);
     userRouter.get('/:id', checkAuth, userHandler.getById);
 
-    userRouter.put('/:id', checkAuth, userHandler.changeUser);
+    userRouter.post('/:id/friends', checkAuth, userHandler.addFriend);
+    //userRouter.delete('/:id/friends', checkAuth, userHandler.changeUser);
     userRouter.post('/find', checkAuth, userHandler.findByName);
 
     return userRouter;

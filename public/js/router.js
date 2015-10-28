@@ -38,7 +38,10 @@ define(['models/user','views/header', 'views/sidebar', 'views/HomeView', 'views/
         },
 
         registration: function(){
-            var create = new Create();
+            if(this.create){
+                this.create.undelegateEvents();
+            }
+            this.create = new Create();
         },
 
         user: function(userId){
